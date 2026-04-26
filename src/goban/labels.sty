@@ -57,10 +57,14 @@
   \pgfmathsetmacro{\fontSizeMultiplier}{
     % From [this answer](https://tex.stackexchange.com/a/50131/64441).
     \if\relax\detokenize\expandafter{\romannumeral-0#3}\relax
-      \ifnum#3>9
-        3.775
+      \ifnum#3>99
+        2.8
       \else
-        4.375
+        \ifnum#3>9
+          3.775
+        \else
+          4.375
+        \fi
       \fi
     \else
       4.2

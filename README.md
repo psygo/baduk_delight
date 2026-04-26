@@ -1,8 +1,6 @@
-# Tsumego Workbooks
+# Baduk Delight
 
-A template for creating tsumego workbooks.
-
-Largely based on this other project: [@psygo/tecnicas_de_go](https://github.com/psygo/tecnicas_de_go).
+A miscellanea book on Go.
 
 ## Development Setup
 
@@ -15,6 +13,7 @@ File paths are very annoying in TeX. And, for this project, we need to set up a 
 
 ## References
 
+- [@psygo/tsumego_workbooks](https://github.com/psygo/tsumego_workbooks)
 - [@psygo/tecnicas_de_go](https://github.com/psygo/tecnicas_de_go)
 - [@101books/101books.github.io](https://github.com/101books/101books.github.io)
   - [101books.github.io](https://101books.github.io/)
