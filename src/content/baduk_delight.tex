@@ -1,0 +1,53 @@
+\documentclass[12pt]{book}
+
+% A4
+\usepackage[
+  paperheight   = 297mm, 
+  paperwidth    = 210mm,
+  bindingoffset = 10mm,
+  left          = 7.5mm,
+  right         = 12.5mm,
+  top           = 20mm,
+  bottom        = 15mm,
+  footskip      = 4.36mm,
+]{geometry}
+
+\def\repoPath{/Users/phili/Code/Go/baduk_delight/src}
+\usepackage{\repoPath/config}
+
+\begin{document}
+  \begin{titlepage}
+    \centering
+    Baduk Delight
+  \end{titlepage}
+  
+  \tableofcontents
+  
+  \chapter{High Level Suicide}
+  
+  Since everyone is talking about the LG Cup controversy, why not open another can of worms?
+
+  In 2003, during the 15th Kiseong, Cho Hunhyun 9p lost a game to Choi Cheolhan 9p due to an illegal move: suicide. Even Cho himself probably doesn't know what happened. He might have been thinking so far into the future, he conflated the present with it.
+
+  Anyways, even though a pass plus a capture is massive in a professional game, wouldn't you rather have the game continue anyway? (Or maybe at most give it a warning?)
+
+  In my opinion, dropping the suicide rule could enrich Go a tad bit more, creating some more possibilities.
+  
+  \begin{figure}[t]
+    \centering
+
+    \vspace{-0.5cm}
+
+    \hbox{
+      \begin{goban}[board dimension       = 10,
+                    board size            = 19,
+                    scale                 = 1,
+                    outline line width    = 0.55mm,]
+        \parseSgfFile{\repoPath/sgf/choi.sgf}
+      \end{goban}
+    }
+  \end{figure}
+  
+  \chapter{Starcraft and Go}
+
+\end{document}
