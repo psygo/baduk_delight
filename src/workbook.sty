@@ -1,0 +1,210 @@
+%-----------------------------------------------------------
+% Problem Numbering
+
+\newcounter{problemCounter}
+\setcounter{problemCounter}{0}
+
+\newcommand\problemNumber[2]{
+  \pgfmathsetmacro{\baselinePad}{
+    \ifnum\theproblemCounter>99
+      3.4pt 
+    \else
+      \ifnum\theproblemCounter>9
+        2.pt
+      \else
+        1.6pt
+      \fi
+    \fi
+  }
+
+  \pgfmathsetmacro{\innerSep}{
+    \ifnum\theproblemCounter>9 
+      2.5pt 
+    \else
+      3.5pt
+    \fi
+  }
+
+  \pgfmathsetmacro{\fontSize}{
+    \ifnum\theproblemCounter>99
+      21pt
+    \else
+      \ifnum\theproblemCounter>9
+        23pt
+      \else
+        27pt
+      \fi
+    \fi
+  }
+
+  \begin{tikzpicture}[baseline=\baselinePad]
+    \ncm
+
+    \hspace*{#2}
+    \node[
+      draw,
+      shape        = circle,
+      inner sep    = \innerSep,
+      line width   = 0.060cm,
+      font         = \fontsize{\fontSize}{9pt}\selectfont,
+    ] 
+      (char)
+      {\textmd{#1}};
+  \end{tikzpicture}
+}
+
+%-----------------------------------------------------------
+% Diagrams
+
+\pgfkeys{%
+  /phili/problemDiagram/.cd, 
+    path/.store in                      = \problemPath,
+    path                                = sgf,
+    problem text/.store in              = \problemPlayer,
+    problem text                        = 흑,
+    caption vertical margin/.store in   = \captionVertMargin,
+    caption vertical margin             = 0cm,
+    caption horizontal margin/.store in = \captionHorMargin,
+    caption horizontal margin           = 0.125cm,
+    problem size/.store in              = \problemSize,
+    problem size                        = 8.75,
+    %-------------------------------------------------------
+    % Partial Boards
+    horizontal clip start/.store in     = \horClipStartT,
+    horizontal clip start               = 9,
+    horizontal clip end/.store in       = \horClipEndT,
+    horizontal clip end                 = 19,
+    vertical clip start/.store in       = \verClipStartT,
+    vertical clip start                 = 1,
+    vertical clip end/.store in         = \verClipEndT,
+    vertical clip end                   = 10.5,
+    %---------------------------------------------------------
+}
+
+\newcommand\problemDiagram[1][]{%
+  \pgfkeys{/phili/problemDiagram/.cd, #1}%
+  \stepcounter{problemCounter}%
+  \noindent%
+  \begin{minipage}[c]{0.3\linewidth}
+    % \hfill
+    \centering
+    \problemPlayer \ \ \fontsize{13pt}{13pt}\selectfont \theproblemCounter
+    \hspace{\captionHorMargin}
+    \vspace{\captionVertMargin}
+    \begin{goban}[board dimension       = \problemSize,
+                  board size            = 19,
+                  scale                 = 1,
+                  outline line width    = 0.55mm,
+                  horizontal clip start = \horClipStartT,
+                  horizontal clip end   = \horClipEndT,
+                  vertical clip start   = \verClipStartT,
+                  vertical clip end     = \verClipEndT,]
+      \parseSgfFile{\problemPath}
+    \end{goban}
+  \end{minipage}\hfill
+}
+
+\pgfkeys{%
+  /phili/haengmaProblem/.cd, 
+    path/.store in            = \haengmaPath,
+    path                      = sgf,
+    filename/.store in        = \haengmaFilename,
+    filename                  = 1_2,
+    initial counter/.store in = \haengmaCounter,
+    initial counter           = 1,
+}
+
+\newcommand\haengmaProblem[1][]{%
+  \pgfkeys{/phili/haengmaProblem/.cd, #1}%
+  \setcounter{problemCounter}{\haengmaCounter}%
+  
+  \vfill
+  \vspace*{1.25cm}
+
+  \problemNumber{\theproblemCounter}{
+    \ifnum\theproblemCounter>9
+      0.61cm
+    \else
+      0.625cm
+    \fi
+  }
+  \vspace*{-0.5cm}
+
+  \begin{center}
+    \begin{goban}[board dimension       = 17.15,
+                  board size            = 19,
+                  scale                 = 1,
+                  outline line width    = 0.55mm,
+                  horizontal clip start = 1,
+                  horizontal clip end   = 19,
+                  vertical clip start   = 1,
+                  vertical clip end     = 19,
+                  split line width      = 0.45mm]
+      \parseSgfFile{\haengmaPath/\haengmaFilename.sgf}
+    \end{goban}
+  \end{center}
+
+  \stepcounter{problemCounter}
+
+  \vspace*{-0.11cm}
+  \problemNumber{\theproblemCounter}{
+    \ifnum\theproblemCounter>9
+      14.95cm
+    \else
+      15cm
+    \fi
+  }
+
+  \vfill
+
+  \clearpage
+}
+
+%-----------------------------------------------------------
+% Problem and Chapter Generators
+
+\pgfkeys{%
+  /phili/haengmaChapterGenerator/.cd, 
+    chapter name/.store in = \problemChapterName,
+    chapter name           = Chapter,
+    path/.store in         = \haengmaChapterPath,
+    path                   = sgf,
+    max problem/.store in  = \problemMax,
+    max problem            = 1,
+}
+
+\newcommand\haengmaChapterGenerator[1][]{%
+  \pgfkeys{/phili/haengmaChapterGenerator/.cd, #1}%
+  \chapter{\problemChapterName}
+  \clearpage
+  \foreach \i in {1,3,...,\problemMax}{
+    \pgfmathtruncatemacro{\j}{\i + 1}
+    \haengmaProblem[%
+      path            = \haengmaChapterPath,
+      filename        = \i_\j,
+      initial counter = \i,
+    ]
+  }
+}
+
+%-----------------------------------------------------------
+% Title Pages
+
+\pgfkeys{%
+  /phili/workbookTitlePage/.cd, 
+    title/.store in = \workbookTitle,
+    title           = Haengma,
+}
+
+\newcommand\workbookTitlePage[1][]{%
+  \pgfkeys{/phili/workbookTitlePage/.cd, #1}%
+  \begin{titlepage}
+    \centering
+    \workbookTitle
+  \end{titlepage}
+
+  \blankpage
+  \setcounter{page}{1}
+}
+
+%-----------------------------------------------------------

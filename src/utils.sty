@@ -1,0 +1,42 @@
+%-----------------------------------------------------------
+% Pages
+
+\newcommand\emptypage{
+  \newpage 
+  \ 
+  \newpage
+}
+
+% From [this answer](https://tex.stackexchange.com/a/36881/64441)
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage%
+}
+
+
+\newcommand\clearedpage{
+  \clearpage
+  \begingroup
+    \null
+    \clearpage
+  \endgroup
+}
+
+%-----------------------------------------------------------
+% Links
+
+\newcommand\shref[2]{%
+  \fontsize{10.95pt}{10.95pt}\href{#1}{\path{#2}}\normalsize%
+}
+
+%-----------------------------------------------------------
+% Roman Numeral
+
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+%-----------------------------------------------------------

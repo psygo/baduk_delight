@@ -1,0 +1,164 @@
+\newcommand\StoneColor[1]{%
+  \ifcsname thecolorat#1\endcsname
+    \csname thecolorat#1\endcsname
+  \else
+    white%
+  \fi
+}
+
+\usepackage{xstring}
+
+\newcommand{\textLabel}[3]{
+  \setCoords{#2}
+ 
+  \pgfmathsetmacro{\xCoord}{\x * \step}
+  \pgfmathsetmacro{\yCoord}{\y * \step}
+
+  \pgfmathsetmacro{\xCoordShifted}{
+    \if\relax\detokenize\expandafter{\romannumeral-0#3}\relax
+      \xCoord + 0.0001cm
+    \else
+      \if#3B
+        \xCoord + 0.00035cm
+      \else
+        \if#3D
+          \xCoord + 0.000425cm
+        \else
+          \xCoord
+        \fi
+      \fi
+    \fi
+  }
+
+  \pgfmathsetmacro{\yCoordShifted}{
+    \if\relax\detokenize\expandafter{\romannumeral-0#3}\relax
+      \yCoord
+    \else
+      \if#3A
+        \yCoord + 0.00045cm
+      \else
+        \if#3B
+          \yCoord + 0.00006cm
+        \else
+          \yCoord
+        \fi
+      \fi
+    \fi
+  }
+
+
+  \draw (\xCoordShifted, \yCoordShifted) [
+    fill      = \StoneColor{#2},
+    draw      = \StoneColor{#2},
+    inner sep = 0pt,
+  ] 
+    circle [radius = \stoneRadius * 0.6375cm];
+    
+  \pgfmathsetmacro{\fontSizeMultiplier}{
+    % From [this answer](https://tex.stackexchange.com/a/50131/64441).
+    \if\relax\detokenize\expandafter{\romannumeral-0#3}\relax
+      \ifnum#3>9
+        3.775
+      \else
+        4.375
+      \fi
+    \else
+      4.2
+    \fi
+  }
+
+  \pgfmathsetmacro{\fontSize}{\stoneRadius * \fontSizeMultiplier * 9.625pt}
+  
+  \clmuni
+  
+  \draw (\xCoordShifted, \yCoordShifted) 
+    node[
+      color     = -\StoneColor{#2},
+      font      = \fontsize{\fontSize}{9pt}\selectfont,
+    ] {\textsb{#3}};
+}
+
+\newcommand{\triangleLabel}[2]{
+  \setCoords{#2}
+  
+  \pgfmathsetmacro{\xCoord}{\x * \step}
+  \pgfmathsetmacro{\yCoord}{\y * \step}
+
+  \pgfmathsetmacro{\yCoordLabelBackgroundShifted}{(\y * \step) + 0.000475cm}
+
+  \draw (\xCoord, \yCoordLabelBackgroundShifted) [
+    fill      = \StoneColor{#2},
+    draw      = \StoneColor{#2},
+    inner sep = 0pt,
+  ] 
+    circle [radius = \stoneRadius * 0.6375cm];
+
+  \pgfmathsetmacro{\yCoordLabelShifted}{\yCoord - 0.000425cm}
+
+  \draw (\xCoord, \yCoordLabelShifted) 
+    node[
+      isosceles triangle,
+      draw                          = #1,
+      color                         = -\StoneColor{#2},
+      fill                          = \StoneColor{#2},
+      line width                    = \stoneRadius * 1.55mm,
+      minimum height                = \stoneRadius * 0.875cm,
+      minimum width                 = \stoneRadius * 0.875cm,
+      rotate                        = 90,
+      isosceles triangle apex angle = 60,
+      inner sep                     = 0pt,
+    ] {};
+}
+
+\newcommand{\squareLabel}[2]{
+  \setCoords{#2}
+  
+  \pgfmathsetmacro{\xCoord}{\x * \step}
+  \pgfmathsetmacro{\yCoord}{\y * \step}
+
+  \pgfmathsetmacro{\yCoordLabelBackgroundShifted}{(\y * \step) + 0.000475cm}
+
+  \draw (\xCoord, \yCoordLabelBackgroundShifted) [
+    fill      = \StoneColor{#2},
+    draw      = \StoneColor{#2},
+    inner sep = 0pt,
+  ] 
+    circle [radius = \stoneRadius * 0.6375cm];
+
+  \pgfmathsetmacro{\yCoordLabelShifted}{(\y * \step) - 0.0001cm}
+
+  \draw (\xCoord, \yCoordLabelShifted) 
+    node[
+      draw         = #1,
+      color        = -\StoneColor{#2},
+      fill         = \StoneColor{#2},
+      line width   = \stoneRadius * 1.55mm,
+      minimum size = \stoneRadius * 0.87cm,
+      inner sep    = 0pt,
+    ] {};
+}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+
+% From [this answer](https://tex.stackexchange.com/a/512311/64441).
+\tikzset{
+  cross/.pic = {
+    \draw[rotate = 45] (-#1,0) -- (#1,0);
+    \draw[rotate = 45] (0,-#1) -- (0, #1);
+  }
+}
+
+\newcommand{\crossLabel}[2]{
+  \setCoords{#2}
+
+  \pgfmathsetmacro{\xCoord}{\x * \step}
+  \pgfmathsetmacro{\yCoord}{\y * \step}
+  
+  \draw (\xCoord, \yCoord) 
+    pic[
+      color      = -\StoneColor{#2},
+      fill       = \StoneColor{#2},
+      line width = 1.05pt
+    ] {cross = 4pt};
+}

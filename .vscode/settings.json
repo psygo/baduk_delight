@@ -1,0 +1,21 @@
+{
+    "files.exclude": {
+        "**/*.aux": true,
+        "**/*.dvi": true,
+        "**/*.log": true,
+        "**/*.ps": true,
+        "**/*.fls": true,
+        "**/*.out": true,
+        "**/*.synctex.gz": true,
+        "**/*.synctex(busy)": false,
+        "**/*.fdb_latexmk": true,
+        "**/dist/chapters": true,
+        "**/*.toc": true,
+        "**/*.txss": true,
+        "**/*.glg": true,
+        "**/*.glo": true,
+        "**/*.gls": true,
+        "**/*.ist": true,
+    },
+    "editor.wordWrap": "on",
+}

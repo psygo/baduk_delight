@@ -1,0 +1,175 @@
+%-----------------------------------------------------------
+% Fonts
+
+\usepackage[T1]{fontenc}
+
+\usepackage{fontspec}
+\newfontfamily\agp{Adobe Garamond Pro}
+\newfontfamily\ncm{NewCM10-Regular.otf}
+\newfontfamily\clmuni{Latin Modern Roman}[%
+  Numbers={Lining,Proportional},%
+  FontFace={sb}{n}{Font=lmromandemi10-regular.otf},%
+  FontFace={sb}{sl}{Font=lmromandemi10-oblique.otf},%
+]
+
+\makeatletter
+\DeclareRobustCommand{\sbweight}{%
+  \not@math@alphabet\sbweight\relax
+  \fontseries{sb}\selectfont
+}
+\makeatother
+\DeclareTextFontCommand{\textsb}{\sbweight}
+
+% From [this comment](https://www.reddit.com/r/identifythisfont/comments/1fiahvg/comment/lngfilr/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
+\setmainfont{Adobe Garamond Pro}
+
+\usepackage{kotex}
+
+%-----------------------------------------------------------
+% Language and Hyphenation
+
+\usepackage[english]{babel}
+% \usepackage[portuguese]{babel}
+\usepackage{microtype}
+\usepackage{hyphenat}
+% \hyphenation{pa-ra}
+% \hyphenation{Bran-co}
+% \hyphenation{bran-ca}
+% \hyphenation{Pre-to}
+% \hyphenation{cri-ar}
+% \hyphenation{mor-ta}
+% \hyphenation{quan-do}
+% \hyphenation{for-ça}
+% \hyphenation{o-lho}
+% \hyphenation{mes-mo}
+% \hyphenation{can-to}
+% \hyphenation{po-de}
+% \hyphenation{as-sim}
+% \hyphenation{e-xer-cí-cios}
+% \hyphenation{al-go}
+% \hyphenation{quan-to}
+% \hyphenation{te-rá}
+
+%-----------------------------------------------------------
+% URLs
+
+% \usepackage[%
+%   colorlinks  = true,
+%   allcolors   = black,
+%   pdfsubject  = {Go;\ Baduk;\ Weiqi},
+%   pdftitle    = {Técnicas\ de\ Go\ ---\ Volume I\ ---\ Captura\ e\ Vida\ ou\ Morte},
+%   pdfauthor   = {Philippe\ Fanaro},
+%   pdfkeywords = {Go;\ Baduk;\ Weiqi;\ Tsumegos},
+%   pdfproducer = {LaTeX},
+%   pdfcreator  = {pdflatex;\ bibtex},
+%   bookmarksnumbered,
+% ]{hyperref}
+\usepackage{xurl}
+
+%-----------------------------------------------------------
+% Chapter and Part Titles
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+            {\normalfont\huge\bfseries}
+            {\thechapter}
+            {20pt}
+            {\huge}
+\titlespacing*{\chapter}
+              {0pt}
+              {-30pt}
+              {10pt}
+
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\thechapter.\ #1}{}}
+\renewcommand{\partname}{}
+
+% From [this question](https://tex.stackexchange.com/q/726389/64441)
+\usepackage{xpatch}
+\AtBeginDocument{\xpatchcmd{\NR@part}{\partname\nobreakspace}{}{}{}} % Removing "Part" from part titles
+\pagestyle{headings} % Apply the change
+\makeatother
+
+%-----------------------------------------------------------
+% TOC
+
+\usepackage{titletoc}
+\titleformat{name=\chapter, numberless}[block]
+  {\bfseries\fontsize{24}{24}\selectfont}
+  {}
+  {0cm}
+  {}
+  [\addvspace{0.25cm}]
+  \addto\captionsenglish{
+    \renewcommand{\contentsname}{\bfseries\fontsize{30pt}{30pt}\selectfont Contents}
+  }
+  \addto\captionsportuguese{
+    \renewcommand{\contentsname}{Índice}
+  }
+\titlecontents{part}
+  [0em]
+  {\addvspace{0.65cm}}
+  {}
+  {\bfseries\fontsize{20}{20}\selectfont}
+  {} % without page number
+  [\addvspace{0.5cm}]
+\titlecontents{chapter}
+  [1.225cm] 
+  {}
+  {\bfseries\fontsize{18}{18}\selectfont\contentslabel{1.5em}}
+  {}
+  {\titlerule*[1pc]{.}\bfseries\fontsize{16}{16}\selectfont\contentspage}
+  [\addvspace{0.35cm}]
+% TODO: the chapter titles are not clickable anymore.
+% \usepackage{hyperref}
+% \hypersetup{linktocpage}
+
+%-----------------------------------------------------------
+% Page Header
+
+% From [this question](https://tex.stackexchange.com/q/726389/64441)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhead[LE, RO]{\fontsize{17pt}{15pt}\slshape\nouppercase\rightmark}
+\fancyhead[LO,RE]{\fontsize{17pt}{15pt}\selectfont\slshape\nouppercase\leftmark}
+\fancyhead[LE,RO]{\fontsize{17pt}{15pt}\selectfont\thepage}
+
+\fancyfoot{}
+
+\setlength{\headheight}{18.72pt}
+\setlength{\headsep}{1.1cm}
+\renewcommand\headrulewidth{0pt}
+
+\makeatletter
+\renewcommand\chaptermark[1]{\markboth{\if@mainmatter\thechapter. \fi#1}{}}
+\makeatother
+
+%-----------------------------------------------------------
+% Figures
+
+% Forcing figure floats into being at the top of the page.
+% From [this answer](https://tex.stackexchange.com/a/66270/64441)
+\makeatletter
+\setlength{\@fptop}{0.0cm}
+\makeatother
+
+% Due to a TeX limit of only 18 outstanding floats...
+% See [this answer for more info](https://tex.stackexchange.com/a/241006/64441).
+\extrafloats{100}
+
+%-----------------------------------------------------------
+% Other Stuff
+
+\raggedbottom
+\frenchspacing
+\usepackage{indentfirst}
+
+%-----------------------------------------------------------
+% Custom Packages
+
+\usepackage{\repoPath/goban/goban}
+\usepackage{\repoPath/utils}
+\usepackage{\repoPath/workbook}
+
+%-----------------------------------------------------------
